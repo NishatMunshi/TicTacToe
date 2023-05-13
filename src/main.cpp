@@ -1,17 +1,40 @@
 #include <SFML/Graphics.hpp>
+#include <headers/player.hpp>
+#include <headers/game_engine.hpp>
 #include <headers/game_objects.hpp>
+#include<iostream>
 #ifndef WINDOW_DIMENSION
 #define WINDOW_DIMENSION 810.f
 #endif
+
+void draw(const Game::GamePostion &_pos, sf::RenderWindow &_window)
+{
+    for (unsigned rowIndex = 0; rowIndex < 3; rowIndex++)
+    {
+        for (unsigned columnIndex = 0; columnIndex < 3; columnIndex++)
+        {
+            if (_pos.grid[rowIndex][columnIndex] == Game::DOT)
+            {
+                Game::Dot dot(rowIndex, columnIndex);
+                dot.draw(_window);
+            }
+            else if (_pos.grid[rowIndex][columnIndex] == Game::CROSS)
+            {
+                Game::Cross cross(rowIndex, columnIndex);
+                cross.draw(_window);
+            }
+        }
+    }
+}
 int main(int argc, char const *argv[])
 {
     // init the window
     sf::RenderWindow window(sf::VideoMode(WINDOW_DIMENSION, WINDOW_DIMENSION), "Tic Tac Toe");
-    window.setFramerateLimit(1);
 
-    Board board;
-    Dot dot(2, 2);
-    Cross cross(1,2);
+    Game::Board board;
+    Game::Player player;
+    Game::Engine engine;
+    Game::GamePostion pos;
 
     while (window.isOpen())
     {
@@ -24,9 +47,17 @@ int main(int argc, char const *argv[])
         }
 
         window.clear();
+
         board.draw(window);
-        dot.draw(window);
-        cross.draw(window);
+        draw(pos, window);
+        window.display();
+
+        player.play(pos, window);
+        draw(pos, window);
+        window.display();
+
+        engine.play(pos);
+        draw(pos, window);
         window.display();
     }
     return 0;
