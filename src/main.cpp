@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <headers/game_objects.hpp>
 #ifndef WINDOW_DIMENSION
-#define WINDOW_DIMENSION 800.f
+#define WINDOW_DIMENSION 810.f
 #endif
 int main(int argc, char const *argv[])
 {
