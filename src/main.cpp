@@ -2,13 +2,15 @@
 #include <headers/player.hpp>
 #include <headers/game_engine.hpp>
 #include <headers/game_objects.hpp>
-#include<iostream>
+#include <iostream>
 #ifndef WINDOW_DIMENSION
 #define WINDOW_DIMENSION 810.f
 #endif
 
-void draw(const Game::GamePostion &_pos, sf::RenderWindow &_window)
+bool draw(const Game::GamePostion &_pos, sf::RenderWindow &_window)
 {
+    if (_pos.isGameOver())
+        return false;
     for (unsigned rowIndex = 0; rowIndex < 3; rowIndex++)
     {
         for (unsigned columnIndex = 0; columnIndex < 3; columnIndex++)
@@ -25,6 +27,7 @@ void draw(const Game::GamePostion &_pos, sf::RenderWindow &_window)
             }
         }
     }
+    return true;
 }
 int main(int argc, char const *argv[])
 {
@@ -49,8 +52,10 @@ int main(int argc, char const *argv[])
         window.clear();
 
         board.draw(window);
-        draw(pos, window);
+        if (not draw(pos, window))
+            return 0;
         window.display();
+
 
         player.play(pos, window);
         draw(pos, window);

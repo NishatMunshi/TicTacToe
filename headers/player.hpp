@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include<headers/game_objects.hpp>
 #include <headers/game_engine.hpp>
 namespace Game
 {

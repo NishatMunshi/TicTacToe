@@ -1,18 +1,16 @@
 #pragma once
 #include <vector>
-#include <iostream>
-#include <headers/game_objects.hpp>
 namespace Game
 {
     enum CellState
     {
-        DOT,
+        DOT = -1,
         EMPTY,
         CROSS
     };
     enum Eval
     {
-        DOTWON,
+        DOTWON = -1,
         DRAW,
         CROSSWON
     };
@@ -21,6 +19,18 @@ namespace Game
     public:
         Eval eval;
         CellState grid[3][3];
+        // void print(void) const
+        // {
+        //     for (auto &row : grid)
+        //     {
+        //         for (auto &cell : row)
+        //         {
+        //             std::cout << cell << '\t';
+        //         }
+        //         std::cout << '\n';
+        //     }
+        //     std::cout<<'\n';
+        // }
         GamePostion(void)
         {
             for (auto &row : grid)
@@ -114,11 +124,11 @@ namespace Game
     private:
         inline auto min(const Eval _first, const Eval _second) const
         {
-            return _first < _second ? _first : _second;
+            return _first <= _second ? _first : _second;
         }
         inline auto max(const Eval _first, const Eval _second) const
         {
-            return _first > _second ? _first : _second;
+            return _first >= _second ? _first : _second;
         }
         Eval m_minimax(const GamePostion &_parent, bool _dotPLayersTurn)
         {
@@ -130,7 +140,7 @@ namespace Game
             {
                 std::vector<GamePostion> children;
                 _parent.get_children(DOT, children);
-                Eval eval;
+                Eval eval = CROSSWON;
                 for (auto &child : children)
                 {
                     eval = min(m_minimax(child, false), eval);
@@ -141,10 +151,10 @@ namespace Game
             {
                 std::vector<GamePostion> children;
                 _parent.get_children(CROSS, children);
-                Eval eval;
+                Eval eval = DOTWON;
                 for (auto &child : children)
                 {
-                    eval = max(m_minimax(child, false), eval);
+                    eval = max(m_minimax(child, true), eval);
                 }
                 return eval;
             }
