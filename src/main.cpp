@@ -1,8 +1,10 @@
-#include <SFML/Graphics.hpp>
-#include <headers/player.hpp>
-#include <headers/game_engine.hpp>
-#include <headers/game_objects.hpp>
+#include "../include/player.hpp"
+#include "../include/game_engine.hpp"
+#include "../include/game_objects.hpp"
+
 #include <iostream>
+#include <SFML/Graphics.hpp>
+
 #ifndef WINDOW_DIMENSION
 #define WINDOW_DIMENSION 810.f
 #endif
@@ -29,7 +31,8 @@ bool draw(const Game::GamePostion &_pos, sf::RenderWindow &_window)
     }
     return true;
 }
-int main(int argc, char const *argv[])
+
+int main()
 {
     // init the window
     sf::RenderWindow window(sf::VideoMode(WINDOW_DIMENSION, WINDOW_DIMENSION), "Tic Tac Toe");
